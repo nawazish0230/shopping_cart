@@ -1,0 +1,140 @@
+alert('hey');
+function fetchData(){
+    let url = new Request('./products.json');
+    console.log(url);
+    fetch(url)
+    .then((response)=>{
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
+fetchData()
+
+
+
+let container = document.querySelector('.container');
+
+let productsElement = document.querySelector('.products');
+
+
+products = 
+
+products.forEach(product => {
+    // console.log(product)
+    let productElement  = document.createElement('div');
+    productElement.className = 'product'
+    productElement.innerHTML = ``;
+    productsElement.appendChild(productElement)
+})
+
+
+let addtoCartBtn = document.getElementsByClassName('cart-btn');
+let checkoutPrice = document.getElementsByClassName('checkout-price');
+let checkoutQuantity = document.getElementsByClassName('checkout-qty');
+let increaseBtn = document.getElementsByClassName('add-btn');
+let cartQuantityBtn = document.getElementsByClassName('cart-quantity-btn');
+let cartQuantity = document.getElementsByClassName('cart-quantity');
+let priceText = document.getElementsByClassName('price');
+let decreaseBtn = document.getElementsByClassName('sub-btn');
+let totalQty = 0;
+let mainPrice = 0;
+let priceArr = [];
+
+// console.log(cartQuantity)
+// let button = document.getElementsByTagName('button');
+
+// adding product to cart using add to cart btn
+for(i = 0; i< addtoCartBtn.length ; i++){
+    let button = addtoCartBtn[i];
+    button.addEventListener('click', addToCart);
+}
+
+
+// for increasing cart value
+for(i = 0; i < increaseBtn.length; i++){
+    let button = increaseBtn[i];
+    button.addEventListener('click', function(event){
+        addToCart(i);
+    });
+}
+
+
+// addtocart function
+let totalPrice = 0;
+let totalQuantity = 0;
+function addToCart(i){
+    console.log(i)
+    let button = event.target;
+    let cartItem = button.parentElement.parentElement;
+    let priceElement = cartItem.getElementsByClassName('price')[0].innerText;
+    let quantityElement = cartItem.getElementsByClassName('cart-quantity')[0].innerText;
+    console.log(cartItem.getElementsByClassName('cart-quantity')[0]);
+    let price  = parseFloat(priceElement.replace('Rs', ''));
+    let quantity = parseFloat(quantityElement);
+    totalQuantity = totalQuantity+1;
+    totalQty = totalQty+1;
+    checkoutQuantity[0].innerText = totalQty;
+    cartQuantity[0].innerText = totalQuantity;
+    checkoutPrice[0].innerText = parseFloat(checkoutQuantity[0].innerText) * price;
+    // console.log(totalQuantity ,quantity, parseFloat(cartQuantity[0].innerText));
+    // console.log(parseFloat(checkoutQuantity[0].innerText) * price)
+    // checkoutPrice[0].innerText = parseFloat(checkoutPrice[0].innerText) + totalPrice;
+    
+};
+
+
+
+
+
+// increase function
+// let incPrice = 0;
+// let incQuantity = 0;
+// let quantity = 0;
+// function increaseQuantity(event){
+//     let button = event.target.parentElement.parentElement;
+//     let quantityElement = button.getElementsByClassName('cart-quantity')[0].innerText;
+//     quantity = quantity + 1;
+//     let priceElement = button.parentElement.getElementsByClassName('price')[0].innerText;
+//     let price  = parseFloat(priceElement.replace('Rs', ''));
+//     // incQuantity = quantity+1;
+//     console.log(button, quantity, price);
+//     cartQuantity[0].innerText = quantity;
+//     checkoutPrice[0].innerText = quantity * price;
+//     checkoutQuantity[0].innerText = quantity;
+// };
+
+// for decreasing cart value
+for(i = 0; i < decreaseBtn.length; i++){
+    let button = decreaseBtn[i];
+    button.addEventListener('click', decreaseQuantity);
+}
+
+
+// decrease function
+let decPrice = 0;
+let decQuantity = 0;
+let quan = 0;
+let quantity = 0;
+function decreaseQuantity(event){
+    let button = event.target.parentElement.parentElement;
+    let quantityElement = button.getElementsByClassName('cart-quantity')[0].innerText;
+    let quan = parseFloat(quantityElement);
+    totalQty = totalQty - 1;
+
+    let priceElement = button.parentElement.getElementsByClassName('price')[0].innerText;
+    let price  = parseFloat(priceElement.replace('Rs', ''));
+    // incQuantity = quantity+1;
+    console.log(quan, price, totalQty, quan);
+
+    cartQuantity[0].innerText = totalQty;
+    checkoutPrice[0].innerText = totalQty * price;
+    checkoutQuantity[0].innerText = totalQty;
+    if(totalQty === 0){
+        return alert('no cart in the item');
+    }
+};
